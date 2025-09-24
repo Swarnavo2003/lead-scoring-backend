@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 import connectDB from "./config/database.js";
 import offerRouter from "./routes/offer.routes.js";
 import leadRouter from "./routes/lead.routes.js";
+import resultRouter from "./routes/result.routes.js";
 dotenv.config({ quiet: true });
 
 const app = express();
@@ -15,6 +16,7 @@ app.use(cors());
 
 app.use("/api/v1/offers", offerRouter);
 app.use("/api/v1/leads", leadRouter);
+app.use("/api/v1/results", resultRouter);
 
 app.listen(PORT, () => {
   connectDB();

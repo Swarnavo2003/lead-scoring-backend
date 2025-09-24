@@ -20,6 +20,7 @@
     "express-validator": "^7.2.1",
     "mongoose": "^8.18.2",
     "multer": "^2.0.2",
+    "openai": "^5.23.0",
     "uuid": "^13.0.0"
   },
   "devDependencies": {
