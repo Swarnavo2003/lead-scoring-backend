@@ -1,3 +1,4 @@
+// Simple endpoint to check if the server is running
 export const healthCheck = (req, res) => {
   try {
     res.status(200).json({ message: "OK!", success: true });
