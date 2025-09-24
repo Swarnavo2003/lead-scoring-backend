@@ -9,7 +9,6 @@ export const scoreLeads = async (req, res) => {
     const leads = await Lead.find();
 
     const offer = await Offer.findOne().sort({ createdAt: -1 });
-    console.log("Using offer for scoring:", offer);
 
     if (!offer) {
       return res

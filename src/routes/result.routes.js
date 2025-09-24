@@ -3,7 +3,7 @@ import { getResults, scoreLeads } from "../controllers/result.controller.js";
 
 const resultRouter = express.Router();
 
-resultRouter.post("/score-leads", scoreLeads);
+resultRouter.post("/score", scoreLeads);
 resultRouter.get("/", getResults);
 
 export default resultRouter;
