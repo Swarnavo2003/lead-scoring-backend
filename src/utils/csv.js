@@ -14,17 +14,14 @@ export const parseCSV = (filePath) => {
 
 export const exportResultsToCSV = (rows) => {
   if (!rows.length) return "";
-  console.log(rows);
 
   const headers = Object.keys(rows[0]);
   const escape = (str) => `"${String(str).replace(/"/g, '""')}"`;
-  console.log(escape);
 
   const csvString = [
     headers.join(","),
     ...rows.map((row) => headers.map((h) => escape(row[h])).join(",")),
   ].join("\n");
-  console.log(csvString);
 
   return csvString;
 };

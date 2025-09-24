@@ -7,6 +7,11 @@ const ResultSchema = new mongoose.Schema(
       ref: "Lead",
       required: true,
     },
+    offer: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Offer",
+      required: true,
+    },
     intent: { type: String, enum: ["High", "Medium", "Low"], required: true },
     score: { type: Number, required: true },
     reasoning: { type: String, required: true },

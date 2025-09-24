@@ -3,6 +3,7 @@ import Offer from "../models/offer.model.js";
 import Result from "../models/result.model.js";
 import { calculateRuleScore } from "../utils/scoring.js";
 import client from "../utils/openai.js";
+import { exportResultsToCSV } from "../utils/csv.js";
 
 export const scoreLeads = async (req, res) => {
   try {
@@ -61,6 +62,7 @@ export const scoreLeads = async (req, res) => {
 
       const result = await Result.create({
         lead,
+        offer,
         intent: aiIntent,
         score: finalScore,
         reasoning: resoning,
@@ -85,15 +87,44 @@ export const getResults = async (req, res) => {
   try {
     const results = await Result.find()
       .sort({ createdAt: -1 })
-      .populate("lead");
-    res.status(200).json({
-      message: "Results fetched successfully",
-      data: results,
-      count: results.length,
-      success: true,
-    });
+      .populate("lead offer");
+
+    res.status(200).json(results);
   } catch (error) {
     console.error("Error fetching results:", error);
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
+export const exportResults = async (req, res) => {
+  try {
+    const results = await Result.find()
+      .sort({ createdAt: -1 })
+      .populate("lead offer");
+
+    if (!results.length) {
+      return res.status(404).json({ message: "No results found" });
+    }
+
+    const rows = results.map((r) => ({
+      name: r.lead.name,
+      role: r.lead.role,
+      company: r.lead.company,
+      industry: r.lead.industry,
+      location: r.lead.location,
+      linkedin_bio: r.lead.linkedin_bio,
+      offer: r.offer.name,
+      intent: r.intent,
+      score: r.score,
+      reasoning: r.reasoning,
+    }));
+
+    const csvString = exportResultsToCSV(rows);
+    res.header("Content-Type", "text/csv");
+    res.attachment("results.csv");
+    return res.send(csvString);
+  } catch (error) {
+    console.error("Error exporting results:", error);
     res.status(500).json({ message: "Server error" });
   }
 };
