@@ -11,7 +11,6 @@ export const uploadLeads = async (req, res) => {
     const filePath = req.file.path;
 
     const rows = await parseCSV(filePath);
-    console.log(rows);
 
     const leads = rows.map((r) => ({
       name: r.name?.trim() || "",
@@ -21,7 +20,6 @@ export const uploadLeads = async (req, res) => {
       location: r.location?.trim() || "",
       linkedin_bio: r.linkedin_bio?.trim() || "",
     }));
-    console.log(leads);
 
     const inserted = await Lead.insertMany(leads);
 
