@@ -7,7 +7,6 @@ import client from "../utils/openai.js";
 export const scoreLeads = async (req, res) => {
   try {
     const leads = await Lead.find();
-    console.log("Leads to score:", leads);
 
     const offer = await Offer.findOne().sort({ createdAt: -1 });
     console.log("Using offer for scoring:", offer);
@@ -60,9 +59,6 @@ export const scoreLeads = async (req, res) => {
       }
 
       const finalScore = ruleScore + aiPoints;
-      console.log(
-        `Lead: ${lead._id}, Rule Score: ${ruleScore}, AI Points: ${aiPoints}, Final Score: ${finalScore}`,
-      );
 
       const result = await Result.create({
         lead,
