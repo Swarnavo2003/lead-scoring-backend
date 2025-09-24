@@ -5,6 +5,7 @@ import connectDB from "./config/database.js";
 import offerRouter from "./routes/offer.routes.js";
 import leadRouter from "./routes/lead.routes.js";
 import resultRouter from "./routes/result.routes.js";
+import healthCheckRouter from "./routes/health-check.routes.js";
 dotenv.config({ quiet: true });
 
 const app = express();
@@ -14,6 +15,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 
+app.use("/api/v1/health-check", healthCheckRouter);
 app.use("/api/v1/offers", offerRouter);
 app.use("/api/v1/leads", leadRouter);
 app.use("/api/v1/results", resultRouter);
